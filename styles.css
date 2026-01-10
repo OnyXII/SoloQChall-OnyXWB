@@ -1,0 +1,793 @@
+:root{
+  --bg:#050814;
+  --bg2:#060a18;
+  --text:#e8edf7;
+  --muted:rgba(232,237,247,.65);
+  --muted2:rgba(232,237,247,.45);
+
+  --gold:#f5c86a;
+  --ring:rgba(245,200,106,.35);
+
+  --card: rgba(10,16,34,.25);
+  --card2: rgba(10,16,34,.35);
+  --stroke: rgba(245,200,106,.12);
+  --stroke2: rgba(245,200,106,.28);
+
+  --max: 1320px;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color:var(--text);
+  background:
+    radial-gradient(1200px circle at 20% 0%, rgba(56,189,248,.18), transparent 55%),
+    radial-gradient(900px circle at 80% 35%, rgba(244,114,182,.10), transparent 55%),
+    radial-gradient(900px circle at 50% 100%, rgba(245,158,11,.12), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
+}
+
+a{ color:inherit; }
+
+.page{ position:relative; min-height:100vh; }
+.bg{
+  pointer-events:none;
+  position:absolute; inset:0;
+  background: radial-gradient(500px circle at 50% -10%, rgba(245,200,106,.10), transparent 65%);
+}
+
+.container{
+  position:relative;
+  max-width:var(--max);
+  margin:0 auto;
+  padding:28px 24px 28px;
+}
+
+/* =========================
+   HEADER / NAV (3 pages)
+========================= */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+.brand{
+  font-weight:900;
+  letter-spacing:.06em;
+  color:rgba(232,237,247,.90);
+}
+.nav{ display:flex; gap:10px; flex-wrap:wrap; }
+.nav__link{
+  text-decoration:none;
+  color:rgba(232,237,247,.70);
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(245,200,106,.12);
+  background: rgba(10,16,34,.35);
+}
+.nav__link:hover{ color:rgba(232,237,247,.92); }
+.nav__link--active{
+  border-color: rgba(245,200,106,.28);
+  color: rgba(245,200,106,.92);
+}
+
+/* =========================
+   TOPLINE / DIVIDER (Stats/Elo)
+========================= */
+.topline{ display:flex; align-items:center; gap:16px; }
+.topline__label{
+  font-weight:900;
+  letter-spacing:.08em;
+  color:var(--gold);
+  font-size:26px;
+  text-transform: uppercase;
+}
+.topline__rule{
+  height:1px;
+  flex:1;
+  background: linear-gradient(90deg, transparent, rgba(245,200,106,.60), transparent);
+}
+
+.divider{
+  margin-top:26px;
+  position:relative;
+  padding:14px 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.divider__rule{
+  position:absolute;
+  inset:50% 0 auto 0;
+  height:1px;
+  transform:translateY(-50%);
+  background: linear-gradient(90deg, transparent, rgba(245,200,106,.55), transparent);
+}
+.divider__label{
+  position:relative;
+  padding:0 18px;
+  color:var(--gold);
+  font-weight:900;
+  letter-spacing:.28em;
+  font-size:20px;
+}
+
+/* =========================
+   AVATARS (stable size everywhere)
+========================= */
+.avatar,
+.kda__avatar,
+.winner__avatar,
+.mini__avatar{
+  border-radius:999px;
+  overflow:hidden;
+  display:block;
+  flex:0 0 auto;
+  background: rgba(255,255,255,.06);
+}
+
+.avatar,
+.kda__avatar,
+.winner__avatar{
+  width:52px;
+  height:52px;
+  flex: 0 0 52px;
+  border:2px solid var(--ring);
+}
+
+.mini__avatar{
+  width:30px;
+  height:30px;
+  flex: 0 0 30px;
+  border:1px solid rgba(245,200,106,.25);
+}
+
+.avatar img,
+.kda__avatar img,
+.winner__avatar img,
+.mini__avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.img-missing{ background: rgba(255,255,255,.08); }
+
+/* =========================
+   STATS PAGE (Screen 2 look)
+========================= */
+.kda{
+  margin-top:24px;
+  display:grid;
+  grid-template-columns: repeat(5, minmax(220px, 1fr));
+  gap:22px;
+  align-items:center;
+}
+@media (max-width: 1100px){ .kda{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 560px){ .kda{ grid-template-columns: 1fr; } }
+
+.kda__item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:6px 0;
+  min-width:0;
+}
+.kda__rank{
+  width:22px;
+  color:rgba(232,237,247,.8);
+  font-weight:700;
+  font-size:18px;
+  flex:0 0 auto;
+}
+
+.kda__text{ min-width:0; }
+.kda__line{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+}
+.kda__value{
+  color:rgba(245,200,106,.95);
+  font-weight:900;
+  font-size:34px;
+  letter-spacing:-.02em;
+  line-height:1;
+  white-space: nowrap;
+}
+.kda__name{
+  font-weight:700;
+  white-space: nowrap;
+  overflow: visible;
+}
+.kda__games{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:13px;
+  white-space: nowrap;
+}
+
+/* =========================
+   STATS — grille 6 colonnes
+   (KILLS, DEATHS, ASSISTS, CS/MIN, DMG/MIN, AVG MIN)
+========================= */
+.grid4{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns: repeat(6, minmax(0,1fr)); /* ✅ 6 colonnes */
+  gap:26px;
+}
+
+/* Responsive */
+@media (max-width: 1500px){
+  .grid4{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+@media (max-width: 980px){
+  .grid4{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 560px){
+  .grid4{ grid-template-columns: 1fr; }
+}
+
+
+
+.section{ padding:8px 6px; }
+.section__title{
+  text-align:center;
+  color:var(--gold);
+  font-weight:900;
+  letter-spacing:.28em;
+  font-size:18px;
+  margin:0 0 18px 0;
+}
+
+.winner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.winner__value{
+  color:rgba(245,200,106,.95);
+  font-weight:900;
+  font-size:34px;
+  line-height:1;
+  white-space:nowrap;
+}
+.winner__name{ font-weight:800; white-space:nowrap; }
+.winner__games{ font-size:13px; color:var(--muted); white-space:nowrap; }
+
+/* little gold line under winner */
+.mini::before{
+  content:"";
+  display:block;
+  height:1px;
+  background: linear-gradient(90deg, transparent, rgba(245,200,106,.30), transparent);
+  margin:14px 0 10px;
+}
+
+.mini{ display:flex; flex-direction:column; gap:14px; }
+
+.mini__row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:8px 0;
+  min-width:0;
+}
+
+.mini__left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex: 1 1 auto;
+  min-width:0;
+}
+
+.mini__name{
+  flex: 1 1 auto;         /* ✅ prend l’espace restant */
+  min-width:0;
+  font-size:14px;
+  color:rgba(232,237,247,.92);
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis; /* ✅ évite la collision */
+}
+
+.mini__right{
+  display:flex;
+  align-items:baseline;
+  justify-content:flex-end;
+  gap:12px;
+  flex: 0 0 auto;          /* ✅ ne compresse pas la droite */
+  min-width: 150px;        /* ✅ réserve la place pour value + games */
+}
+
+.mini__value{
+  font-weight:900;
+  color:rgba(245,200,106,.92);
+  font-size:14px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  min-width: 70px;         /* ✅ valeur stable */
+  text-align:right;
+}
+
+.mini__games{
+  width:84px;
+  text-align:right;
+  font-size:12px;
+  color:rgba(232,237,247,.55);
+  white-space: nowrap;
+}
+
+/* =========================
+   ELO PAGE
+========================= */
+.eloList{
+  margin-top:22px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.eloRow{
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  background: var(--card);
+  padding:14px 14px;
+}
+
+.eloRow__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.eloRow__left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+  flex: 1 1 auto;
+}
+
+.place{
+  width:34px;
+  text-align:center;
+  font-weight:900;
+  color: rgba(232,237,247,.85);
+}
+.place--first{ color: var(--gold); }
+.crown{ margin-left:6px; color: var(--gold); font-size:16px; }
+
+.rankBadge{ display:flex; align-items:center; gap:10px; }
+
+.rankIcon{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  object-fit:contain;
+  display:block;
+}
+
+.eloInfo{ min-width:0; }
+.playerCard__name{ font-weight:900; white-space:nowrap; }
+.playerCard__sub{
+  margin-top:4px;
+  color:rgba(232,237,247,.75);
+  font-size:13px;
+  white-space:nowrap;
+}
+
+/* ===== Games pill (à droite) ===== */
+.playerCard__stats{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  flex: 0 0 auto;
+}
+
+.statPill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  border-radius:999px;
+  background: rgba(245,200,106,.08);
+  border: 1px solid rgba(245,200,106,.45);
+  font-size:13px;
+  font-weight:900;
+  white-space:nowrap;
+  color: rgba(232,237,247,.92); /* valeur en blanc */
+}
+.statPill strong{
+  color: var(--gold);
+  font-weight:900;
+}
+
+/* =========================
+   ELO — Champions INLINE (ronds + badge + tooltip)
+========================= */
+.champs{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:nowrap;
+  flex: 0 0 auto;
+  margin-left: 10px;
+}
+
+.champ{
+  position:relative;
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+
+  border-radius:999px;
+  overflow:hidden;
+
+  border:2px solid rgba(245,200,106,.35);
+  background: rgba(255,255,255,.06);
+  display:block;
+}
+
+.champ img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.champ__badge{
+  position:absolute;
+  top:-7px;
+  right:-7px;
+
+  min-width:18px;
+  height:18px;
+  padding:0 5px;
+
+  border-radius:999px;
+  background: rgba(10,16,34,.92);
+
+  border:1px solid rgba(245,200,106,.55);
+  color: rgba(232,237,247,.92);
+
+  font-size:11px;
+  font-weight:900;
+  line-height:18px;
+  text-align:center;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+/* tooltip WR */
+.champ__tooltip{
+  position:absolute;
+  left:50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+
+  padding:6px 10px;
+  border-radius:10px;
+  border:1px solid rgba(245,200,106,.35);
+  background: rgba(10,16,34,.92);
+
+  color: rgba(232,237,247,.92);
+  font-size:12px;
+  font-weight:800;
+
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .12s ease, transform .12s ease;
+}
+.champ__tooltip::after{
+  content:"";
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform: translateX(-50%);
+  border:6px solid transparent;
+  border-top-color: rgba(10,16,34,.92);
+}
+.champ:hover .champ__tooltip{
+  opacity:1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* responsive : si ça wrap, on autorise un retour propre */
+@media (max-width: 900px){
+  .eloRow__top{ flex-wrap:wrap; }
+  .champs{ flex-wrap:wrap; }
+}
+
+/* =========================
+   FOOTER (all pages)
+========================= */
+.footer{
+  margin-top:22px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+  color:rgba(232,237,247,.55);
+  font-size:12px;
+  flex-wrap:wrap;
+}
+.pill{
+  border:1px solid rgba(245,200,106,.15);
+  background: rgba(10,16,34,.55);
+  padding:4px 10px;
+  border-radius:999px;
+  color:rgba(232,237,247,.72);
+}
+
+/* =========================
+   WELCOME / INDEX PAGE
+========================= */
+.welcome{
+  min-height: 100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:18px;
+  padding:24px;
+}
+.welcome__title{
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 900;
+  letter-spacing: .04em;
+  margin: 0;
+  line-height: 1.1;
+}
+.welcome__title span{ color: var(--gold); }
+.welcome__subtitle{
+  margin: 0;
+  font-size: 18px;
+  color: rgba(232,237,247,.75);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.welcome__actions{
+  margin-top: 24px;
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.welcome__btn{
+  text-decoration:none;
+  padding:14px 28px;
+  border-radius:999px;
+  font-weight:900;
+  letter-spacing:.08em;
+  color:#0b0e1a;
+  background: linear-gradient(135deg, #f5c86a, #fbbf24);
+  border: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.welcome__btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(245,200,106,.35);
+}
+.welcome__btn--ghost{
+  background: transparent;
+  color: rgba(232,237,247,.9);
+  border:1px solid rgba(245,200,106,.35);
+}
+.welcome__btn--ghost:hover{ background: rgba(245,200,106,.08); }
+
+/* =========================
+   ELO — FIX INLINE CHAMPIONS (classes isolées)
+   Colle ce bloc EN BAS du styles.css
+========================= */
+
+/* force la ligne ELO en layout horizontal */
+.eloRow__top{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:14px !important;
+  flex-wrap:nowrap !important;
+}
+
+/* zone gauche */
+.eloRow__left{
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  min-width:0 !important;
+  flex: 0 1 auto !important;
+}
+
+/* texte joueur */
+.eloInfo{ min-width:0; }
+.playerCard__name{ white-space:nowrap; }
+.playerCard__sub{ white-space:nowrap; }
+
+/* zone droite (games pill) */
+.playerCard__stats{
+  margin-left:auto !important;
+  display:flex !important;
+  align-items:center !important;
+  flex: 0 0 auto !important;
+}
+
+/* ✅ champions inline, jamais en colonne */
+.eloChamps{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  flex-wrap:nowrap !important;
+  flex: 0 0 auto !important;
+  justify-content:flex-start !important;
+}
+
+/* ✅ item champion = rond */
+.eloChamps__item{
+  position:relative !important;
+  width:34px !important;
+  height:34px !important;
+  flex:0 0 34px !important;
+
+  border-radius:999px !important;
+  overflow:hidden !important;
+
+  border:2px solid rgba(245,200,106,.35) !important;
+  background: rgba(255,255,255,.06) !important;
+}
+
+/* image champion dedans */
+.eloChamps__img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  display:block !important;
+}
+
+/* ✅ badge games (bulle en haut à droite) */
+.eloChamps__badge{
+  position:absolute !important;
+  top:-7px !important;
+  right:-7px !important;
+
+  min-width:18px !important;
+  height:18px !important;
+  padding:0 5px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  border-radius:999px !important;
+  background: rgba(10,16,34,.92) !important;
+
+  border:1px solid rgba(245,200,106,.55) !important;
+  color: rgba(232,237,247,.92) !important;
+
+  font-size:11px !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,.35) !important;
+}
+
+/* responsive: si écran petit, autorise wrap propre */
+@media (max-width: 980px){
+  .eloRow__top{ flex-wrap:wrap !important; }
+  .eloChamps{ flex-wrap:wrap !important; width:100% !important; }
+  .playerCard__stats{ margin-left:0 !important; }
+}
+
+/* =========================
+   ELO — champs: décalage + badge non coupé (PATCH)
+   Colle tout en bas de styles.css
+========================= */
+
+/* on garde la ligne, mais on donne plus de place au milieu */
+.eloRow__top{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:14px !important;
+  flex-wrap:nowrap !important;
+}
+
+/* LEFT */
+.eloRow__left{
+  flex: 0 1 auto !important;
+  min-width: 340px;            /* donne une base pour que les champs soient plus loin */
+}
+
+/* champs: plus loin (tu peux augmenter à 80px si tu veux encore plus) */
+.eloChamps{
+  margin-left: 250px !important;  /* ✅ décale */
+  display:flex !important;
+  align-items: center !important;
+  gap:10px !important;
+  flex-wrap:nowrap !important;
+  justify-content:flex-start !important;
+  flex: 1 1 auto !important;     /* ✅ prend l'espace au milieu */
+}
+
+/* wrapper non-coupant */
+.eloChamps__wrap{
+  position:relative !important;
+  width:34px !important;
+  height:34px !important;
+  flex:0 0 34px !important;
+  overflow: visible !important;   /* ✅ badge visible */
+}
+
+/* le rond (lui coupe l'image, c'est normal) */
+.eloChamps__item{
+  width:34px !important;
+  height:34px !important;
+  border-radius:999px !important;
+  overflow:hidden !important;     /* ✅ coupe l'image uniquement */
+  border:2px solid rgba(245,200,106,.35) !important;
+  background: rgba(255,255,255,.06) !important;
+}
+
+.eloChamps__img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  display:block !important;
+}
+
+/* badge: positionné sur le wrapper (donc jamais coupé) */
+.eloChamps__badge{
+  position:absolute !important;
+  top:-7px !important;
+  right:-7px !important;
+
+  min-width:18px !important;
+  height:18px !important;
+  padding:0 5px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  border-radius:999px !important;
+  background: rgba(10,16,34,.92) !important;
+  border:1px solid rgba(245,200,106,.55) !important;
+  color: rgba(232,237,247,.92) !important;
+
+  font-size:11px !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,.35) !important;
+}
+
+/* responsive: si petit écran, on repasse en wrap propre */
+@media (max-width: 980px){
+  .eloRow__top{ flex-wrap:wrap !important; }
+  .eloChamps{
+    margin-left: 0 !important;
+    width:100% !important;
+    justify-content:flex-start !important;
+    flex-wrap:wrap !important;
+  }
+}

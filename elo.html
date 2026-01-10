@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoloQ Challenge — Élo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="bg"></div>
+
+      <div class="container">
+        <header class="header">
+          <div class="brand">SoloQ Challenge</div>
+          <nav class="nav">
+            <a class="nav__link" href="./index.html">Accueil</a>
+            <a class="nav__link" href="./stats.html">Stats</a>
+            <a class="nav__link nav__link--active" href="./elo.html">Élo</a>
+          </nav>
+        </header>
+
+        <div class="topline">
+          <div class="topline__label">ÉLO</div>
+          <div class="topline__rule"></div>
+        </div>
+
+        <section class="eloList" id="elo"></section>
+
+        <footer class="footer">
+          <span class="pill">SoloQ</span>
+          <span id="metaElo">Chargement…</span>
+        </footer>
+      </div>
+    </main>
+
+    <script src="./elo.js"></script>
+  </body>
+</html>

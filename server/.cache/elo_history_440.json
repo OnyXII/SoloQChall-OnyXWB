@@ -1,0 +1,78 @@
+[
+  {
+    "ts": 1767812512374,
+    "queueId": 440,
+    "players": [
+      {
+        "id": "Jigo",
+        "name": "Jigo",
+        "tier": "EMERALD",
+        "division": "III",
+        "lp": 4,
+        "games": 163,
+        "winRate": 54.6,
+        "score": 602004
+      },
+      {
+        "id": "Mect",
+        "name": "Mect",
+        "tier": "EMERALD",
+        "division": "IV",
+        "lp": 79,
+        "games": 119,
+        "winRate": 55.46,
+        "score": 601079
+      },
+      {
+        "id": "AD",
+        "name": "AD",
+        "tier": "EMERALD",
+        "division": "IV",
+        "lp": 34,
+        "games": 121,
+        "winRate": 55.37,
+        "score": 601034
+      },
+      {
+        "id": "OnyX",
+        "name": "OnyX",
+        "tier": "PLATINUM",
+        "division": "III",
+        "lp": 35,
+        "games": 113,
+        "winRate": 46.9,
+        "score": 502035
+      },
+      {
+        "id": "Bobou",
+        "name": "Bobou",
+        "tier": "PLATINUM",
+        "division": "IV",
+        "lp": 94,
+        "games": 195,
+        "winRate": 52.82,
+        "score": 501094
+      },
+      {
+        "id": "Larbex",
+        "name": "Larbex",
+        "tier": "GOLD",
+        "division": "III",
+        "lp": 36,
+        "games": 89,
+        "winRate": 52.81,
+        "score": 402036
+      },
+      {
+        "id": "Ch4k",
+        "name": "Ch4k",
+        "tier": "GOLD",
+        "division": "IV",
+        "lp": 61,
+        "games": 62,
+        "winRate": 50,
+        "score": 401061
+      }
+    ]
+  }
+]
