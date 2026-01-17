@@ -23,5 +23,5 @@ jobs:
 
       - name: Restart app
         run: |
-          pm2 restart soloq || pm2 start /home/dasch/website/SoloQChall-OnyXWB/server/server.js --name soloq
+          pm2 restart soloq || pm2 start  "$GITHUB_WORKSPACE/server/server.js" --name soloq
           pm2 save
