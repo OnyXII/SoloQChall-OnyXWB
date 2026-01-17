@@ -2,38 +2,35 @@ name: Deploy Application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
-      
-name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      
-name: Debug workspace
-      run: |
-        echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-        pwd
-        ls -la
-        find . -maxdepth 4 -name server.js -print
+      - name: Debug workspace
+        run: |
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          pwd
+          ls -la
+          find . -maxdepth 4 -name server.js -print
 
-      
-name: Install server dependencies
-      run: |# Find the folder that contains server/server.js
-        APP_DIR="$(dirname "$(find "$GITHUB_WORKSPACE" -path "*/server/server.js" -print -quit)")/.."
-        echo "APP_DIR=$APP_DIR"
-        cd "$APP_DIR/server"
-        npm install --omit=dev
+      - name: Install server dependencies
+        run: |
+          # Find the folder that contains server/server.js
+          APP_DIR="$(dirname "$(find "$GITHUB_WORKSPACE" -path "*/server/server.js" -print -quit)")/.."
+          echo "APP_DIR=$APP_DIR"
+          cd "$APP_DIR/server"
+          npm install --omit=dev
 
-      
-name: Start or restart app with PM2
-      run: |
-        APP_DIR="$(dirname "$(find "$GITHUB_WORKSPACE" -path "*/server/server.js" -print -quit)")/.."
-        echo "Using server.js at: $APP_DIR/server/server.js"
+      - name: Start or restart app with PM2
+        run: |
+          APP_DIR="$(dirname "$(find "$GITHUB_WORKSPACE" -path "*/server/server.js" -print -quit)")/.."
+          echo "Using server.js at: $APP_DIR/server/server.js"
 
           if pm2 describe soloq >/dev/null 2>&1; then
             pm2 restart soloq
