@@ -5,12 +5,15 @@ import path from "path";
 const app = express();
 const PORT = 5174;
 
-const RIOT_API_KEY = process.env.RIOT_API_KEY;
-if (!RIOT_API_KEY) {
-  console.error("❌ RIOT_API_KEY manquante.");
-  process.exit(1);
-}
+/* =========================================================
+   ⚠️ CLÉ RIOT EN DUR (PAS SÉCURISÉ)
+   Remplace par ta vraie clé RGAPI-...
+========================================================= */
+const RIOT_API_KEY = "RGAPI-7baede6e-1022-402e-b059-8e8a6d285367";
 
+/* =========================================================
+   CONFIG FIXE
+========================================================= */
 const PLATFORM = "euw1";   // league-v4
 const REGIONAL = "europe"; // account-v1 + match-v5
 
@@ -18,13 +21,17 @@ const REGIONAL = "europe"; // account-v1 + match-v5
 const QUEUE_ID = 420;
 
 // ✅ sample stats page — léger
-const SAMPLE_MATCHES_PER_PLAYER = 35;
+const SAMPLE_MATCHES_PER_PLAYER = 40;
 
 // ✅ top champions affichés sur la page elo — augmente ici
 const TOP_CHAMPS_MATCHES_PER_PLAYER = 50;
 
-// ✅ Filtre date (Unix seconds). 0 = pas de filtre
-const MATCH_FROM_UNIX = Number(process.env.MATCH_FROM_UNIX || 0);
+/**
+ * ✅ Date FIXE: Jeudi 8 janvier 12h (France)
+ * Janvier = UTC+1 => 11:00 UTC
+ * Unix seconds:
+ */
+const MATCH_FROM_UNIX = 1767870000;
 
 // TTL caches mémoire
 const TTL_STATS_MS = 10 * 60 * 1000;
@@ -32,17 +39,18 @@ const TTL_ELO_MS = 2 * 60 * 1000;
 
 // Joueurs
 const PLAYERS = [
-  { id: "OnyX",    	gameName: "KC OnyX",        tagLine: "2602",  display: "OnyX" },
-  { id: "Mect",    	gameName: "Mect",           tagLine: "EUW",   display: "Mect" },
-  { id: "Jigo",    	gameName: "TCS Jigo",       tagLine: "3607",  display: "Jigo" },
-  { id: "AD",     	gameName: "A D",            tagLine: "CDF",   display: "AD" },
-  { id: "Bobou",  	gameName: "TCS Bobou",      tagLine: "KCWIN", display: "Bobou" },
-  { id: "Ch4k",     gameName: "Perceval",       tagLine: "RPD",   display: "Ch4k" },
-  { id: "Larbex", 	gameName: "TCS Larbex",     tagLine: "AKUMA", display: "Larbex" },
-  { id: "Skyyy",   	gameName: "Skyyyz",         tagLine: "EZZ",   display: "Skyyy" },
-  { id: "Mystère",	gameName: "Mams",           tagLine: "69200", display: "Mystère" },
+  { id: "OnyX",    gameName: "KC OnyX",    tagLine: "2602",  display: "OnyX" },
+  { id: "Mect",    gameName: "Mect",       tagLine: "EUW",   display: "Mect" },
+  { id: "Jigo",    gameName: "TCS Jigo",   tagLine: "3607",  display: "Jigo" },
+  { id: "AD",      gameName: "A D",        tagLine: "CDF",   display: "AD" },
+  { id: "Bobou",   gameName: "TCS Bobou",  tagLine: "KCWIN", display: "Bobou" },
+  { id: "Ch4k",    gameName: "Perceval",   tagLine: "RPD",   display: "Ch4k" },
+  { id: "Larbex",  gameName: "TCS Larbex", tagLine: "AKUMA", display: "Larbex" },
+  { id: "Skyyy",   gameName: "Skyyyz",     tagLine: "EZZ",   display: "Skyyy" },
+  { id: "Mystère", gameName: "Mams",       tagLine: "69200", display: "Mystère" },
   { id: "Milou",   	gameName: "NSMilou",    	tagLine: "EUW",   display: "Milou" },
   { id: "Arfineto",	gameName: "Arfineto",       tagLine: "EUW",   display: "Arfineto" },
+
 ];
 
 app.use(express.json());
@@ -123,8 +131,9 @@ async function getQueueMatchIds(puuid, count) {
   params.set("start", "0");
   params.set("count", String(count));
 
+  // ✅ filtre date FIXE
   if (MATCH_FROM_UNIX > 0) {
-    params.set("startTime", String(MATCH_FROM_UNIX)); // unix seconds
+    params.set("startTime", String(MATCH_FROM_UNIX));
   }
 
   const url =
@@ -151,7 +160,6 @@ async function getLeagueEntriesByPuuid(puuid) {
 }
 
 // ------------------- Compute stats -------------------
-// ✅ Ajouts : DMG/MIN + AVG MIN (durée moyenne)
 function computeBaseStats(matches, puuid) {
   let games = 0;
   let kills = 0, deaths = 0, assists = 0;
@@ -197,11 +205,6 @@ function computeBaseStats(matches, puuid) {
   };
 }
 
-/**
- * ✅ IMPORTANT:
- * - Toutes les stats sont "plus grand = meilleur" => tri DESC
- * - Sauf AVG MIN : "plus petit = meilleur" => tri ASC
- */
 function buildLeaderboards(players) {
   const byDesc = (key) =>
     [...players].sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0)).slice(0, 5);
@@ -218,11 +221,10 @@ function buildLeaderboards(players) {
     assists: byDesc("assists"),
     csMin: byDesc("csMin"),
     dmgMin: byDesc("dmgMin"),
-    avgMin: byAsc("avgMin"), // ✅ plus petit d'abord
+    avgMin: byAsc("avgMin"), // plus petit = meilleur
   };
 }
 
-// ✅ Top champions: triés + WR
 function computeTopChampions(matches, puuid) {
   const map = new Map();
 
@@ -250,7 +252,7 @@ function computeTopChampions(matches, puuid) {
     .slice(0, 5);
 }
 
-// ------------------- Elo sorting (FIXED) -------------------
+// ------------------- Elo sorting -------------------
 const TIER_ORDER = {
   UNRANKED: 0, IRON: 1, BRONZE: 2, SILVER: 3, GOLD: 4,
   PLATINUM: 5, EMERALD: 6, DIAMOND: 7, MASTER: 8, GRANDMASTER: 9, CHALLENGER: 10
@@ -269,8 +271,6 @@ let statsCache = { ts: 0, data: null };
 let eloCache = { ts: 0, data: null };
 
 // ------------------- API -------------------
-
-// ✅ STATS
 app.get("/api/stats", async (_, res) => {
   const now = Date.now();
 
@@ -331,7 +331,6 @@ app.get("/api/stats", async (_, res) => {
   }
 });
 
-// ✅ ELO
 app.get("/api/elo", async (_, res) => {
   const now = Date.now();
 
@@ -390,7 +389,6 @@ app.get("/api/elo", async (_, res) => {
   }
 });
 
-// reset caches
 app.get("/api/refresh", (_, res) => {
   statsCache = { ts: 0, data: null };
   eloCache = { ts: 0, data: null };
