@@ -1,9 +1,19 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const PORT = 5174;
+
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+
+app.use(express.static(path.join(dirname, "..")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(dirname, "..", "index.html"));
+});
 
 /* =========================================================
    ⚠️ CLÉ RIOT EN DUR
