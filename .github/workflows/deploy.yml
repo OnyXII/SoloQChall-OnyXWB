@@ -11,20 +11,37 @@ jobs:
 
     steps:
       - name: Deploy on server (stable folder)
+        shell: bash
         run: |
-          set -e
+          set -euo pipefail
+
+          # Always start from a safe existing directory
+          cd "$HOME"
 
           APP_DIR="/home/dasch/website/SoloQChall-OnyXWB"
 
+          # Sanity checks
+          test -d "$APP_DIR" || { echo "APP_DIR missing: $APP_DIR"; exit 1; }
+          test -d "$APP_DIR/.git" || { echo "Not a git repo: $APP_DIR"; exit 1; }
+          test -d "$APP_DIR/server" || { echo "Missing server folder in repo"; exit 1; }
+          test -f "$APP_DIR/server/server.js" || { echo "Missing server/server.js"; exit 1; }
+
+          # Update code without risking cwd issues
           cd "$APP_DIR"
-          git fetch --all
+          git fetch origin main
+          git checkout -f main
           git reset --hard origin/main
 
+          # Install deps (ensure cwd exists)
           cd "$APP_DIR/server"
+          pwd
+          npm --version
+          node --version
           npm install --omit=dev
 
+          # Restart app
           if pm2 describe soloq >/dev/null 2>&1; then
-            pm2 restart soloq
+            pm2 restart soloq --update-env
           else
             pm2 start "$APP_DIR/server/server.js" --name soloq
           fi
