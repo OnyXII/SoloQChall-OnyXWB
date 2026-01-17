@@ -1,4 +1,4 @@
-const API_BASE = "http://192.168.1.30:5174";
+const API_BASE = "http://192.168.1.30";
 const API_STATS = `${API_BASE}/api/stats`;
 
 function avatarSrc(playerId) {
