@@ -1,4 +1,3 @@
-const API_BASE = "http://192.168.1.30:5174";
 const API_ELO = `${API_BASE}/api/elo`;
 const IMAGE_DIR = "Image";
 const RANK_DIR = "rang";
