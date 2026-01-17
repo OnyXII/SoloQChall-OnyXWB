@@ -1,4 +1,4 @@
-const API_ELO = `${API_BASE}/api/elo`;
+const API_ELO = `/api/elo`;
 const IMAGE_DIR = "Image";
 const RANK_DIR = "rang";
 const CHAMP_DIR = "Champions";
