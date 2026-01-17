@@ -4,7 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const app = express();
-const PORT = 5174;
+const PORT = 80;
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -30,7 +30,7 @@ const REGIONAL = "europe"; // account-v1 + match-v5
 const QUEUE_ID = 420;
 
 // ✅ sample stats page — léger
-const SAMPLE_MATCHES_PER_PLAYER = 40;
+const SAMPLE_MATCHES_PER_PLAYER = 20;
 
 // ✅ top champions affichés sur la page elo — augmente ici
 const TOP_CHAMPS_MATCHES_PER_PLAYER = 50;
