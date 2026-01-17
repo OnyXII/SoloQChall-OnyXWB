@@ -6,10 +6,9 @@ const app = express();
 const PORT = 5174;
 
 /* =========================================================
-   ⚠️ CLÉ RIOT EN DUR (PAS SÉCURISÉ)
-   Remplace par ta vraie clé RGAPI-...
+   ⚠️ CLÉ RIOT EN DUR
 ========================================================= */
-const RIOT_API_KEY = "RGAPI-7baede6e-1022-402e-b059-8e8a6d285367";
+const RIOT_API_KEY = "RGAPI-64019af6-f61a-4499-9d75-43a583dd7304";
 
 /* =========================================================
    CONFIG FIXE
