@@ -1,0 +1,27 @@
+name: Deploy Application
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH (git pull + restart)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd ${{ secrets.REMOTE_PATH }}
+            git fetch --all
+            git reset --hard origin/main
+            cd server
+            npm install --omit=dev
+            pm2 restart soloq || pm2 start server.js --name soloq
+            pm2 save
