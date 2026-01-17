@@ -10,18 +10,14 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Pull latest code
-        run: |
-          cd /home/dasch/website/SoloQChall-OnyXWB
-          git fetch --all
-          git reset --hard origin/main
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          cd /home/dasch/website/SoloQChall-OnyXWB/server
-          npm install --omit=dev
+      - name: Install server dependencies
+        working-directory: server
+        run: npm install --omit=dev
 
-      - name: Restart app
+      - name: Restart app with PM2
         run: |
-          pm2 restart soloq || pm2 start  "$GITHUB_WORKSPACE/server/server.js" --name soloq
+          pm2 restart soloq || pm2 start "$GITHUB_WORKSPACE/server/server.js" --name soloq
           pm2 save
