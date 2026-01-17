@@ -1,4 +1,4 @@
-const API_STATS = `${API_BASE}/api/stats`;
+const API_STATS = `/api/stats`;
 
 function avatarSrc(playerId) {
   return `./Image/${playerId}.png`;
