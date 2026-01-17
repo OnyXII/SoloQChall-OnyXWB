@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(dirname, "..", "index.html"));
 });
 
+
 /* =========================================================
    ⚠️ CLÉ RIOT EN DUR
 ========================================================= */
@@ -66,7 +67,7 @@ app.use(express.json());
 
 // CORS pour le front python :5173
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
