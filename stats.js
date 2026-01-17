@@ -33,7 +33,7 @@ function safeArr(v) {
 
 function attachFallback(img) {
   if (!img) return;
-  img.onerror = () => { img.src = "./Image/default.png"; };
+  img.onerror = () => { img.src = "./Image/Default.png"; };
 }
 
 /* =========================
