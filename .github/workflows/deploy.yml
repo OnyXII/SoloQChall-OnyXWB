@@ -9,18 +9,18 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Update code
+      - name: Pull latest code
         run: |
-          cd /var/www/SoloQChall-OnyXWB
+          cd /home/dasch/website/SoloQChall-OnyXWB
           git fetch --all
           git reset --hard origin/main
 
-      - name: Install backend deps
+      - name: Install dependencies
         run: |
-          cd /var/www/SoloQChall-OnyXWB/server
+          cd /home/dasch/website/SoloQChall-OnyXWB/server
           npm install --omit=dev
 
       - name: Restart app
         run: |
-          pm2 restart soloq || pm2 start /var/www/SoloQChall-OnyXWB/server/server.js --name soloq
+          pm2 restart soloq || pm2 start /home/dasch/website/SoloQChall-OnyXWB/server/server.js --name soloq
           pm2 save
