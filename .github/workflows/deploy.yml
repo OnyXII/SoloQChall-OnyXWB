@@ -3,35 +3,25 @@ name: Deploy Application
 on:
   push:
     branches: ["main"]
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Debug workspace
+      - name: Deploy on server (stable folder)
         run: |
-          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-          pwd
-          ls -la
-          find . -maxdepth 4 -name server.js -print
+          set -e
 
-      - name: Install server dependencies
-        run: |
-          # Find the folder that contains server/server.js
-          APP_DIR="$(dirname "$(find "$GITHUB_WORKSPACE" -path "*/server/server.js" -print -quit)")/.."
-          echo "APP_DIR=$APP_DIR"
+          APP_DIR="/home/dasch/website/SoloQChall-OnyXWB"
+
+          cd "$APP_DIR"
+          git fetch --all
+          git reset --hard origin/main
+
           cd "$APP_DIR/server"
           npm install --omit=dev
-
-      - name: Start or restart app with PM2
-        run: |
-          APP_DIR="$(dirname "$(find "$GITHUB_WORKSPACE" -path "*/server/server.js" -print -quit)")/.."
-          echo "Using server.js at: $APP_DIR/server/server.js"
 
           if pm2 describe soloq >/dev/null 2>&1; then
             pm2 restart soloq
